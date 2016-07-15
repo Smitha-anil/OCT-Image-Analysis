@@ -111,7 +111,7 @@ end
 
  dist=bwdist(x21);
  figure;imshow(dist);
- STS= regionprops(f,'Area','MajorAxisLength','MinorAxisLength','Centroid');
+ STS= regionprops(labeledImage,'Area','MajorAxisLength','MinorAxisLength','Centroid');
  distx=dist-dist;
  dist1(1:194,1:499)=dist(1:194,1:499);
  dist1(195:450,1:499)=distx(195:450,1:499)
@@ -119,7 +119,7 @@ end
  
   dist2(1:194,1:499)=distx(1:194,1:499);
  dist2(195:450,1:499)=dist(195:450,1:499)
- figure;imshow(dist2)
+%  figure;imshow(dist2)
  
 % dist1=imcrop(dist,[0 0 498 194]);
 % figure;imshow(dist1)
@@ -139,21 +139,21 @@ area1=[ ];
      if (~isnan(CenterX) && ~isnan(CenterY))
        if(dist1(floor(CenterY),floor(CenterX)) ~=0)
    if(dist1(floor(CenterY),floor(CenterX)) <= STS(vv).MajorAxisLength/2+10)
-    idx3=find(f==vv);
+    idx3=find(labeledImage==vv);
     f1(idx3) = vv;
    end
        end
        if(dist2(floor(CenterY),floor(CenterX)) ~=0)
    if (dist2(floor(CenterY),floor(CenterX)) <= (STS(vv).MajorAxisLength/2))
-    idx3=find(f==vv);
+    idx3=find(labeledImage==vv);
     f2(idx3) = vv;
    end
        end
      end
  end
  
-figure,imshow(f-f2);title('cyst');
-figure;imshow(f2);title('Subretinal Fluid');
+% figure,imshow(labeledImage-f2);title('cyst');
+% figure;imshow(f2);title('Subretinal Fluid');
 tt=imfuse(f1,f2);
 ttt=imfuse(tt,img);
 figure;imshow(ttt);

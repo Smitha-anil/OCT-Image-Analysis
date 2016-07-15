@@ -21,7 +21,7 @@ for k=1:numel(files)
     file=Im{k};
     imageFile=file(:,:,1);
     processedImage{k} =im2double(imcrop(imageFile,[500 0 498 450]));
-    outputFile=strcat('output/image_',num2str(k),'.tif');
+    outputFile=strcat('output\image_',num2str(k),'.tif');
     imwrite(processedImage{k},outputFile)
 end
 
