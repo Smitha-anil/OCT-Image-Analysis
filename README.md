@@ -7,5 +7,10 @@ This project was developed during the 24th edition of Szeged Image Processing Su
 ##How to use
 
 Detecting fluid areas: sub-retinal fluid and cysts:
-	call ssip_retinal_fluid_area(imageName)
+`call ssip_retinal_fluid_area(imageName) function`
 
+Detecting HRD areas:
+`call ssip_HRD(imageName) function`
+
+Get a complete result:
+`run main.m`
