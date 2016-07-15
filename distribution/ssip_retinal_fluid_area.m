@@ -98,29 +98,65 @@ end
 
 %figure, imshow(labeledImage);
 
-% %%  Spliting the sub-retina from cysts
-% featureVector= regionprops(labeledImage,'Area','MajorAxisLength','Eccentricity','Orientation','Perimeter','Centroid');
-% 
-% f1=labeledImage-labeledImage;
-% 
-% f2=labeledImage-labeledImage;
-% 
-% area1=[ ];
-% for vv=1:size(featureVector)
-%     if(featureVector(vv).Area<50 && featureVector(vv).Area>10)
-%         index=find(labeledImage==vv);
-%         f1(index) = 1;
-%     end
-%     
-%     if(featureVector(vv).Area>50)
-%         index=find(labeledImage==vv);
-%         f2(index) = 1;
-%     end
-%     
-%     
-% end
+%%  Spliting the sub-retina from cysts
+ 
+ 
+ x2=img-img;
+ idxx=find(img<100);
+ x2(idxx)=img(idxx)*170;
+ figure;imshow(x2);
+ x21=bwmorph(x2,'thin',10);
+ figure;imshow(x21);
+%  
 
-%figure,imshow(f1);
+ dist=bwdist(x21);
+ figure;imshow(dist);
+ STS= regionprops(f,'Area','MajorAxisLength','MinorAxisLength','Centroid');
+ distx=dist-dist;
+ dist1(1:194,1:499)=dist(1:194,1:499);
+ dist1(195:450,1:499)=distx(195:450,1:499)
+ figure;imshow(dist1);
+ 
+  dist2(1:194,1:499)=distx(1:194,1:499);
+ dist2(195:450,1:499)=dist(195:450,1:499)
+ figure;imshow(dist2)
+ 
+% dist1=imcrop(dist,[0 0 498 194]);
+% figure;imshow(dist1)
+% SizeD1=size(dist1);
+% dist2=imcrop(dist,[0 194 498 194]);
+% SizeD2=size(dist2);
+% figure;imshow(dist2);
+ % f1 cyst
+ %f2  subretinal 
+f1=labeledImage-labeledImage;
+f2=labeledImage-labeledImage;
+area1=[ ];
+ for vv=1:size(STS)
+        
+     CenterX=STS(vv).Centroid(1,1)
+     CenterY=STS(vv).Centroid(1,2)
+     if (~isnan(CenterX) && ~isnan(CenterY))
+       if(dist1(floor(CenterY),floor(CenterX)) ~=0)
+   if(dist1(floor(CenterY),floor(CenterX)) <= STS(vv).MajorAxisLength/2+10)
+    idx3=find(f==vv);
+    f1(idx3) = vv;
+   end
+       end
+       if(dist2(floor(CenterY),floor(CenterX)) ~=0)
+   if (dist2(floor(CenterY),floor(CenterX)) <= (STS(vv).MajorAxisLength/2))
+    idx3=find(f==vv);
+    f2(idx3) = vv;
+   end
+       end
+     end
+ end
+ 
+figure,imshow(f-f2);title('cyst');
+figure;imshow(f2);title('Subretinal Fluid');
+tt=imfuse(f1,f2);
+ttt=imfuse(tt,img);
+figure;imshow(ttt);
 
 
 outputFile=strcat('results\image_',number);
